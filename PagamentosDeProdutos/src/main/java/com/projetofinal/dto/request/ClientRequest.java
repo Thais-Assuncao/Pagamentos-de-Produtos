@@ -19,5 +19,5 @@ public class ClientRequest {
 	@NotBlank
 	private String address;
 	
-	private List<String> orders;
+	private List<Long> ordersIds;
 }

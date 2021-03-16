@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projetofinal.dto.request.ClientRequest;
 
 import lombok.Data;
@@ -21,27 +22,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Client {
-	
-	public Client(ClientRequest clientRequest) {
+
+	public Client(ClientRequest clientRequest, List<Order> orders) {
 		this.fillFromDto(clientRequest);
+		this.setOrders(orders);
 	}
-	
+
 	public void fillFromDto(ClientRequest clientRequest) {
 		this.setAddress(clientRequest.getAddress());
 		this.setEmail(clientRequest.getEmail());
-		this.setOrders(clientRequest.getOrders());
+		;
+	}
+
+	public Client(String email2, String address) {
+		this.setEmail(email2);
+		this.setAddress(address);
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, length = 80, unique = true)
 	private String email;
-	
+
 	@Column(nullable = false)
 	private String address;
-	
-	@ElementCollection
-	private List<String> orders = new ArrayList<String>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<Order>();
 }

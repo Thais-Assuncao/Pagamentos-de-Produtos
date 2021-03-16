@@ -3,6 +3,7 @@ package com.projetofinal.dto.response;
 import java.util.List;
 
 import com.projetofinal.entity.Client;
+import com.projetofinal.entity.Order;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class ClientResponse {
 		this.setAddress(client.getAddress());
 		this.setEmail(client.getEmail());
 		this.setOrders(client.getOrders());
+		this.setId(client.getId());
 	}
 	
 	private Long id;
@@ -24,5 +26,5 @@ public class ClientResponse {
 	
 	private String address;
 	
-	private List<String> orders;
+	private List<Order> orders;
 }

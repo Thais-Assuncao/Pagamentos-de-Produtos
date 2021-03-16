@@ -43,7 +43,7 @@ public class Product {
 	@Column(nullable = false)
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	private Category category;
 	

@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.projetofinal.dto.request.ProductRequest;
@@ -15,7 +18,7 @@ import com.projetofinal.repository.CategoryRepository;
 import com.projetofinal.repository.ProductRepository;
 
 @Service
-public class ProductService {
+public class ProductService  {
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -24,8 +27,8 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 	
 	private Product findById(Long id) {
-		Optional<Product> contatoOptional = this.productRepository.findById(id);
-		Product product = contatoOptional.orElseThrow();
+		Optional<Product> productOptional = this.productRepository.findById(id);
+		Product product = productOptional.orElseThrow();
 		return product;
 	}
 	
@@ -36,8 +39,27 @@ public class ProductService {
 		return new ProductResponse(product);
 	}	
 	
-	public List<ProductResponse> getAll() {
-		return this.productRepository.findAll().stream().map(ProductResponse::new).collect(Collectors.toList());
+	public List<ProductResponse> getAll(Integer quantity) {
+		Page<Product> products = this.productRepository.findAll(PageRequest.of(0, quantity, Sort.by(Sort.Direction.ASC, "name") ));
+		return products.getContent().stream().map(ProductResponse::new).collect(Collectors.toList());
+	}
+	
+	public ProductResponse get(Long id) {
+		Product product = this.findById(id);
+		return new ProductResponse(product);
+	}
+	
+	public List<ProductResponse> findByLowestPriceAsc() {
+        return productRepository.findByOrderByPriceAsc().stream().map(ProductResponse::new).collect(Collectors.toList());
+    }
+	
+	public List<ProductResponse> findByBiggestPriceDesc() {
+        return productRepository.findByOrderByPriceDesc().stream().map(ProductResponse::new).collect(Collectors.toList());
+    }
+	
+	public List<Product> findByCategory(Long categoryId) {
+		Category category = categoryRepository.findById(categoryId).orElseThrow();
+		return productRepository.findByCategory(category);
 	}
 	
 	public ProductResponse update(ProductRequest productRequest, Long id) {
@@ -51,8 +73,10 @@ public class ProductService {
 		Product product = this.findById(id);
 		this.productRepository.delete(product);
 	}
+
+
 	
-	
+
 	
 
 }
