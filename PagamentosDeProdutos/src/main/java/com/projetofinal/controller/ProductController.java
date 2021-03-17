@@ -56,11 +56,13 @@ public class ProductController {
 	}
 	
 	@GetMapping(path = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ProductResponse get(@PathVariable Long id) {
 		return this.productService.get(id);
 	}
 	
 	@PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ProductResponse put(@Valid @RequestBody ProductRequest productRequest, @PathVariable Long id) {
 		return this.productService.update(productRequest, id);
 	}
@@ -72,7 +74,6 @@ public class ProductController {
 	}
 	
 
-	
 	
 			
 			

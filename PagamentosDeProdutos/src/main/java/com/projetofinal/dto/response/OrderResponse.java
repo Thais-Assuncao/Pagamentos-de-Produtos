@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projetofinal.entity.Client;
 import com.projetofinal.entity.Order;
 import com.projetofinal.entity.OrderStatus;
@@ -22,7 +23,6 @@ public class OrderResponse {
 		this.setDate(order.getDate());
 		this.setClient(order.getClient());
 	}
-
 
 	@JsonIgnore
 	private Client client;

@@ -1,5 +1,7 @@
 package com.projetofinal.dto.response;
 
+import java.util.List;
+
 import com.projetofinal.entity.Product;
 
 import lombok.Data;
@@ -17,7 +19,7 @@ public class ProductResponse {
 		CategoryResponse categoryResponse = new CategoryResponse(product.getCategory());
 		this.setCategory(categoryResponse);
 				
-//		this.setDetails(product.getDetails());
+		this.setDetails(product.getDetails());
 	}
 
 	private Long id;
@@ -28,6 +30,6 @@ public class ProductResponse {
 	
 	private Double price;
 	
-//	private List<String> details;
+	private List<String> details;
 	
 }

@@ -70,9 +70,11 @@ public class ProductService  {
 	}
 	
 	public void delete(Long id) {
-		Product product = this.findById(id);
-		this.productRepository.delete(product);
-	}
+        Optional<Product> productOptional = this.productRepository.findById(id);
+        Product product = productOptional.orElseThrow();
+        this.productRepository.delete(product);
+
+    }
 
 
 	
